@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { MessageTemplate, Car, Location, Stage, MessageVariables } from "./types";
+import { useState, useEffect } from "react";
+import { MessageTemplate, Car, Location, Stage, MessageVariables, Trip, TripStatus } from "./types";
 import { messageTemplates, faqTemplates } from "./templates";
 
 const faqCategories = [
@@ -37,7 +37,26 @@ const faqLabels: Record<string, string> = {
   mileage: "What about mileage limits?",
 };
 
+const statusLabels: Record<TripStatus, string> = {
+  booked: "📋 Booked",
+  picked_up: "🚘 Picked Up",
+  returned: "🔑 Returned",
+  reviewed: "⭐ Reviewed",
+  completed: "✅ Completed",
+};
+
+const statusColors: Record<TripStatus, string> = {
+  booked: "bg-blue-100 text-blue-700 border-blue-300",
+  picked_up: "bg-yellow-100 text-yellow-700 border-yellow-300",
+  returned: "bg-orange-100 text-orange-700 border-orange-300",
+  reviewed: "bg-green-100 text-green-700 border-green-300",
+  completed: "bg-gray-100 text-gray-700 border-gray-300",
+};
+
 export default function Home() {
+  const [activeTab, setActiveTab] = useState<"messages" | "trips">("messages");
+  
+  // Message Generator State
   const [car, setCar] = useState<Car>("tesla");
   const [location, setLocation] = useState<Location>("airport");
   const [stage, setStage] = useState<Stage>("booking");
@@ -54,11 +73,37 @@ export default function Home() {
   const [faqMessage, setFaqMessage] = useState<string>("");
   const [faqCopied, setFaqCopied] = useState(false);
 
+  // Trip Tracker State
+  const [trips, setTrips] = useState<Trip[]>([]);
+  const [showNewTrip, setShowNewTrip] = useState(false);
+  const [newTrip, setNewTrip] = useState<Partial<Trip>>({
+    car: "tesla",
+    location: "airport",
+    status: "booked",
+  });
+  const [tripFilter, setTripFilter] = useState<TripStatus | "all">("all");
+
+  // Load trips from localStorage on mount
+  useEffect(() => {
+    const savedTrips = localStorage.getItem("turo-trips");
+    if (savedTrips) {
+      try {
+        setTrips(JSON.parse(savedTrips));
+      } catch (e) {
+        console.error("Failed to parse trips:", e);
+      }
+    }
+  }, []);
+
+  // Save trips to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem("turo-trips", JSON.stringify(trips));
+  }, [trips]);
+
   const handleGenerate = () => {
     const template = messageTemplates[car][location][stage];
     let message = template;
 
-    // Replace variables
     message = message.replace(/\[Guest Name\]/g, variables.guestName || "[Guest Name]");
     message = message.replace(/\[Lockbox Code\]/g, variables.lockboxCode || "[Lockbox Code]");
 
@@ -93,7 +138,49 @@ export default function Home() {
     }
   };
 
+  const handleAddTrip = () => {
+    if (!newTrip.guestName || !newTrip.startDate || !newTrip.endDate) return;
+    
+    const trip: Trip = {
+      id: Date.now().toString(),
+      guestName: newTrip.guestName,
+      car: newTrip.car || "tesla",
+      location: newTrip.location || "airport",
+      startDate: newTrip.startDate,
+      endDate: newTrip.endDate,
+      status: "booked",
+      notes: newTrip.notes,
+      createdAt: new Date().toISOString(),
+    };
+    
+    setTrips([trip, ...trips]);
+    setShowNewTrip(false);
+    setNewTrip({ car: "tesla", location: "airport", status: "booked" });
+  };
+
+  const handleUpdateTripStatus = (tripId: string, newStatus: TripStatus) => {
+    setTrips(trips.map(t => t.id === tripId ? { ...t, status: newStatus } : t));
+  };
+
+  const handleDeleteTrip = (tripId: string) => {
+    if (confirm("Delete this trip?")) {
+      setTrips(trips.filter(t => t.id !== tripId));
+    }
+  };
+
+  const getTripStats = () => {
+    const active = trips.filter(t => t.status !== "completed").length;
+    const pickedUp = trips.filter(t => t.status === "picked_up").length;
+    const needsReview = trips.filter(t => t.status === "returned").length;
+    return { active, pickedUp, needsReview };
+  };
+
+  const filteredTrips = tripFilter === "all" 
+    ? trips.filter(t => t.status !== "completed")
+    : trips.filter(t => t.status === tripFilter);
+
   const needsLockboxCode = stage === "pickup";
+  const stats = getTripStats();
 
   return (
     <main className="min-h-screen p-4 md:p-8">
@@ -104,225 +191,496 @@ export default function Home() {
           <p className="text-gray-600">Never send the wrong info to guests again.</p>
         </div>
 
-        {/* Form */}
-        <div className="bg-white rounded-2xl shadow-xl p-6 mb-6 space-y-6">
-          {/* Car Selection */}
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Select Car
-            </label>
-            <div className="grid grid-cols-2 gap-3">
+        {/* Tab Navigation */}
+        <div className="bg-white rounded-2xl shadow-xl p-2 mb-6">
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              onClick={() => setActiveTab("messages")}
+              className={`py-3 px-4 rounded-xl font-semibold transition-all ${
+                activeTab === "messages"
+                  ? "bg-teal-600 text-white shadow-md"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              }`}
+            >
+              💬 Messages
+            </button>
+            <button
+              onClick={() => setActiveTab("trips")}
+              className={`py-3 px-4 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 ${
+                activeTab === "trips"
+                  ? "bg-teal-600 text-white shadow-md"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              }`}
+            >
+              📊 Trip Tracker
+              {stats.active > 0 && (
+                <span className="bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">
+                  {stats.active}
+                </span>
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* Messages Tab */}
+        {activeTab === "messages" && (
+          <>
+            {/* Form */}
+            <div className="bg-white rounded-2xl shadow-xl p-6 mb-6 space-y-6">
+              {/* Car Selection */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Select Car
+                </label>
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    onClick={() => setCar("tesla")}
+                    className={`p-4 rounded-xl border-2 transition-all ${
+                      car === "tesla"
+                        ? "border-teal-500 bg-teal-50 text-teal-700"
+                        : "border-gray-200 hover:border-teal-300"
+                    }`}
+                  >
+                    <div className="font-semibold">Tesla Model Y</div>
+                    <div className="text-xs text-gray-500">Space Grey • 0T79</div>
+                  </button>
+                  <button
+                    onClick={() => setCar("hyundai")}
+                    className={`p-4 rounded-xl border-2 transition-all ${
+                      car === "hyundai"
+                        ? "border-teal-500 bg-teal-50 text-teal-700"
+                        : "border-gray-200 hover:border-teal-300"
+                    }`}
+                  >
+                    <div className="font-semibold">Hyundai Sonata</div>
+                    <div className="text-xs text-gray-500">White • 097H</div>
+                  </button>
+                </div>
+              </div>
+
+              {/* Location Selection */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Select Location
+                </label>
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    onClick={() => setLocation("airport")}
+                    className={`p-4 rounded-xl border-2 transition-all ${
+                      location === "airport"
+                        ? "border-teal-500 bg-teal-50 text-teal-700"
+                        : "border-gray-200 hover:border-teal-300"
+                    }`}
+                  >
+                    <div className="font-semibold">✈️ Airport (HNL)</div>
+                    <div className="text-xs text-gray-500">Intl Garage, Level 7</div>
+                  </button>
+                  <button
+                    onClick={() => setLocation("kaneohe")}
+                    className={`p-4 rounded-xl border-2 transition-all ${
+                      location === "kaneohe"
+                        ? "border-teal-500 bg-teal-50 text-teal-700"
+                        : "border-gray-200 hover:border-teal-300"
+                    }`}
+                  >
+                    <div className="font-semibold">🏠 Kaneohe</div>
+                    <div className="text-xs text-gray-500">45-315 Lilipuna Rd, Stall 19</div>
+                  </button>
+                </div>
+              </div>
+
+              {/* Stage Selection */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Message Stage
+                </label>
+                <div className="grid grid-cols-2 gap-3">
+                  {[
+                    { id: "booking", label: "📋 Booking Confirmed", desc: "Send immediately" },
+                    { id: "pickup", label: "🚘 Pickup Day", desc: "Send day of trip" },
+                    { id: "checkout", label: "🔑 Checkout", desc: "Send before return" },
+                    { id: "posttrip", label: "⭐ Post-Trip", desc: "Send after return" },
+                  ].map((s) => (
+                    <button
+                      key={s.id}
+                      onClick={() => setStage(s.id as Stage)}
+                      className={`p-4 rounded-xl border-2 text-left transition-all ${
+                        stage === s.id
+                          ? "border-teal-500 bg-teal-50 text-teal-700"
+                          : "border-gray-200 hover:border-teal-300"
+                      }`}
+                    >
+                      <div className="font-semibold text-sm">{s.label}</div>
+                      <div className="text-xs text-gray-500">{s.desc}</div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Variables */}
+              <div className="space-y-4 pt-4 border-t border-gray-200">
+                <label className="block text-sm font-semibold text-gray-700">
+                  Guest Details
+                </label>
+                <input
+                  type="text"
+                  placeholder="Guest Name"
+                  value={variables.guestName}
+                  onChange={(e) =>
+                    setVariables({ ...variables, guestName: e.target.value })
+                  }
+                  className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none"
+                />
+                {needsLockboxCode && (
+                  <input
+                    type="text"
+                    placeholder="Lockbox Code"
+                    value={variables.lockboxCode}
+                    onChange={(e) =>
+                      setVariables({ ...variables, lockboxCode: e.target.value })
+                    }
+                    className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none"
+                  />
+                )}
+              </div>
+
+              {/* Generate Button */}
               <button
-                onClick={() => setCar("tesla")}
-                className={`p-4 rounded-xl border-2 transition-all ${
-                  car === "tesla"
-                    ? "border-teal-500 bg-teal-50 text-teal-700"
-                    : "border-gray-200 hover:border-teal-300"
-                }`}
+                onClick={handleGenerate}
+                className="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-4 rounded-xl transition-colors shadow-lg"
               >
-                <div className="font-semibold">Tesla Model Y</div>
-                <div className="text-xs text-gray-500">Space Grey • 0T79</div>
-              </button>
-              <button
-                onClick={() => setCar("hyundai")}
-                className={`p-4 rounded-xl border-2 transition-all ${
-                  car === "hyundai"
-                    ? "border-teal-500 bg-teal-50 text-teal-700"
-                    : "border-gray-200 hover:border-teal-300"
-                }`}
-              >
-                <div className="font-semibold">Hyundai Sonata</div>
-                <div className="text-xs text-gray-500">White • 097H</div>
+                ✨ Generate Message
               </button>
             </div>
-          </div>
 
-          {/* Location Selection */}
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Select Location
-            </label>
-            <div className="grid grid-cols-2 gap-3">
-              <button
-                onClick={() => setLocation("airport")}
-                className={`p-4 rounded-xl border-2 transition-all ${
-                  location === "airport"
-                    ? "border-teal-500 bg-teal-50 text-teal-700"
-                    : "border-gray-200 hover:border-teal-300"
-                }`}
-              >
-                <div className="font-semibold">✈️ Airport (HNL)</div>
-                <div className="text-xs text-gray-500">Intl Garage, Level 7</div>
-              </button>
-              <button
-                onClick={() => setLocation("kaneohe")}
-                className={`p-4 rounded-xl border-2 transition-all ${
-                  location === "kaneohe"
-                    ? "border-teal-500 bg-teal-50 text-teal-700"
-                    : "border-gray-200 hover:border-teal-300"
-                }`}
-              >
-                <div className="font-semibold">🏠 Kaneohe</div>
-                <div className="text-xs text-gray-500">45-315 Lilipuna Rd, Stall 19</div>
-              </button>
+            {/* Generated Message */}
+            {generatedMessage && (
+              <div className="bg-white rounded-2xl shadow-xl p-6 mb-6">
+                <div className="flex justify-between items-center mb-4">
+                  <h2 className="text-lg font-semibold text-gray-800">Generated Message</h2>
+                  <button
+                    onClick={handleCopy}
+                    className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                      copied
+                        ? "bg-green-100 text-green-700"
+                        : "bg-gray-100 hover:bg-gray-200 text-gray-700"
+                    }`}
+                  >
+                    {copied ? "✅ Copied!" : "📋 Copy"}
+                  </button>
+                </div>
+                <div className="bg-gray-50 rounded-xl p-4 whitespace-pre-wrap text-gray-700 text-sm leading-relaxed">
+                  {generatedMessage}
+                </div>
+              </div>
+            )}
+
+            {/* FAQ Section */}
+            <div className="bg-white rounded-2xl shadow-xl p-6">
+              <h2 className="text-xl font-bold text-gray-800 mb-4">❓ Quick FAQ Responses</h2>
+              <p className="text-gray-600 mb-4 text-sm">Copy-paste answers to common guest questions</p>
+
+              {/* FAQ Categories */}
+              <div className="flex flex-wrap gap-2 mb-4">
+                {faqCategories.map((cat) => (
+                  <button
+                    key={cat.id}
+                    onClick={() => {
+                      setActiveFaqCategory(cat.id);
+                      setSelectedFaq("");
+                      setFaqMessage("");
+                    }}
+                    className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                      activeFaqCategory === cat.id
+                        ? "bg-teal-600 text-white"
+                        : "bg-gray-100 hover:bg-gray-200 text-gray-700"
+                    }`}
+                  >
+                    {cat.label}
+                  </button>
+                ))}
+              </div>
+
+              {/* FAQ Items */}
+              {activeFaqCategory && (
+                <div className="space-y-2 mb-4">
+                  {faqCategories
+                    .find((c) => c.id === activeFaqCategory)
+                    ?.items.map((item) => (
+                      <button
+                        key={item}
+                        onClick={() => handleFaqSelect(item)}
+                        className={`w-full text-left p-3 rounded-lg border transition-all ${
+                          selectedFaq === item
+                            ? "border-teal-500 bg-teal-50 text-teal-700"
+                            : "border-gray-200 hover:border-teal-300 hover:bg-gray-50"
+                        }`}
+                      >
+                        {faqLabels[item] || item}
+                      </button>
+                    ))}
+                </div>
+              )}
+
+              {/* FAQ Generated Message */}
+              {faqMessage && (
+                <div className="border-t border-gray-200 pt-4">
+                  <div className="flex justify-between items-center mb-3">
+                    <h3 className="font-semibold text-gray-800">Response</h3>
+                    <button
+                      onClick={handleFaqCopy}
+                      className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                        faqCopied
+                          ? "bg-green-100 text-green-700"
+                          : "bg-gray-100 hover:bg-gray-200 text-gray-700"
+                      }`}
+                    >
+                      {faqCopied ? "✅ Copied!" : "📋 Copy"}
+                    </button>
+                  </div>
+                  <div className="bg-gray-50 rounded-xl p-4 whitespace-pre-wrap text-gray-700 text-sm leading-relaxed">
+                    {faqMessage}
+                  </div>
+                </div>
+              )}
             </div>
-          </div>
+          </>
+        )}
 
-          {/* Stage Selection */}
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Message Stage
-            </label>
-            <div className="grid grid-cols-2 gap-3">
-              {[
-                { id: "booking", label: "📋 Booking Confirmed", desc: "Send immediately" },
-                { id: "pickup", label: "🚘 Pickup Day", desc: "Send day of trip" },
-                { id: "checkout", label: "🔑 Checkout", desc: "Send before return" },
-                { id: "posttrip", label: "⭐ Post-Trip", desc: "Send after return" },
-              ].map((s) => (
+        {/* Trip Tracker Tab */}
+        {activeTab === "trips" && (
+          <div className="space-y-6">
+            {/* Stats Dashboard */}
+            <div className="grid grid-cols-3 gap-3">
+              <div className="bg-white rounded-xl shadow-lg p-4 text-center">
+                <div className="text-2xl font-bold text-blue-600">{stats.active}</div>
+                <div className="text-xs text-gray-600">Active Trips</div>
+              </div>
+              <div className="bg-white rounded-xl shadow-lg p-4 text-center">
+                <div className="text-2xl font-bold text-yellow-600">{stats.pickedUp}</div>
+                <div className="text-xs text-gray-600">Out Now</div>
+              </div>
+              <div className="bg-white rounded-xl shadow-lg p-4 text-center">
+                <div className="text-2xl font-bold text-orange-600">{stats.needsReview}</div>
+                <div className="text-xs text-gray-600">Need Review</div>
+              </div>
+            </div>
+
+            {/* Add New Trip Button */}
+            <button
+              onClick={() => setShowNewTrip(true)}
+              className="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-4 rounded-xl transition-colors shadow-lg"
+            >
+              ➕ Add New Trip
+            </button>
+
+            {/* New Trip Form */}
+            {showNewTrip && (
+              <div className="bg-white rounded-2xl shadow-xl p-6 space-y-4">
+                <div className="flex justify-between items-center">
+                  <h3 className="text-lg font-semibold text-gray-800">New Trip</h3>
+                  <button
+                    onClick={() => setShowNewTrip(false)}
+                    className="text-gray-400 hover:text-gray-600"
+                  >
+                    ✕
+                  </button>
+                </div>
+
+                <input
+                  type="text"
+                  placeholder="Guest Name"
+                  value={newTrip.guestName || ""}
+                  onChange={(e) => setNewTrip({ ...newTrip, guestName: e.target.value })}
+                  className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 outline-none"
+                />
+
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    onClick={() => setNewTrip({ ...newTrip, car: "tesla" })}
+                    className={`p-3 rounded-xl border-2 transition-all ${
+                      newTrip.car === "tesla"
+                        ? "border-teal-500 bg-teal-50 text-teal-700"
+                        : "border-gray-200 hover:border-teal-300"
+                    }`}
+                  >
+                    Tesla Model Y
+                  </button>
+                  <button
+                    onClick={() => setNewTrip({ ...newTrip, car: "hyundai" })}
+                    className={`p-3 rounded-xl border-2 transition-all ${
+                      newTrip.car === "hyundai"
+                        ? "border-teal-500 bg-teal-50 text-teal-700"
+                        : "border-gray-200 hover:border-teal-300"
+                    }`}
+                  >
+                    Hyundai Sonata
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    onClick={() => setNewTrip({ ...newTrip, location: "airport" })}
+                    className={`p-3 rounded-xl border-2 transition-all ${
+                      newTrip.location === "airport"
+                        ? "border-teal-500 bg-teal-50 text-teal-700"
+                        : "border-gray-200 hover:border-teal-300"
+                    }`}
+                  >
+                    Airport (HNL)
+                  </button>
+                  <button
+                    onClick={() => setNewTrip({ ...newTrip, location: "kaneohe" })}
+                    className={`p-3 rounded-xl border-2 transition-all ${
+                      newTrip.location === "kaneohe"
+                        ? "border-teal-500 bg-teal-50 text-teal-700"
+                        : "border-gray-200 hover:border-teal-300"
+                    }`}
+                  >
+                    Kaneohe
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-600 mb-1">Start Date</label>
+                    <input
+                      type="date"
+                      value={newTrip.startDate || ""}
+                      onChange={(e) => setNewTrip({ ...newTrip, startDate: e.target.value })}
+                      className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-600 mb-1">End Date</label>
+                    <input
+                      type="date"
+                      value={newTrip.endDate || ""}
+                      onChange={(e) => setNewTrip({ ...newTrip, endDate: e.target.value })}
+                      className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 outline-none"
+                    />
+                  </div>
+                </div>
+
+                <input
+                  type="text"
+                  placeholder="Notes (optional)"
+                  value={newTrip.notes || ""}
+                  onChange={(e) => setNewTrip({ ...newTrip, notes: e.target.value })}
+                  className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 outline-none"
+                />
+
                 <button
-                  key={s.id}
-                  onClick={() => setStage(s.id as Stage)}
-                  className={`p-4 rounded-xl border-2 text-left transition-all ${
-                    stage === s.id
-                      ? "border-teal-500 bg-teal-50 text-teal-700"
-                      : "border-gray-200 hover:border-teal-300"
+                  onClick={handleAddTrip}
+                  disabled={!newTrip.guestName || !newTrip.startDate || !newTrip.endDate}
+                  className="w-full bg-teal-600 hover:bg-teal-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-bold py-3 rounded-xl transition-colors"
+                >
+                  Add Trip
+                </button>
+              </div>
+            )}
+
+            {/* Filter Tabs */}
+            <div className="flex flex-wrap gap-2">
+              {[
+                { id: "all", label: "All Active" },
+                { id: "booked", label: "📋 Booked" },
+                { id: "picked_up", label: "🚘 Out" },
+                { id: "returned", label: "🔑 Returned" },
+                { id: "reviewed", label: "⭐ Reviewed" },
+              ].map((filter) => (
+                <button
+                  key={filter.id}
+                  onClick={() => setTripFilter(filter.id as TripStatus | "all")}
+                  className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    tripFilter === filter.id
+                      ? "bg-teal-600 text-white"
+                      : "bg-white hover:bg-gray-100 text-gray-700 shadow"
                   }`}
                 >
-                  <div className="font-semibold text-sm">{s.label}</div>
-                  <div className="text-xs text-gray-500">{s.desc}</div>
+                  {filter.label}
                 </button>
               ))}
             </div>
-          </div>
 
-          {/* Variables */}
-          <div className="space-y-4 pt-4 border-t border-gray-200">
-            <label className="block text-sm font-semibold text-gray-700">
-              Guest Details
-            </label>
-            <input
-              type="text"
-              placeholder="Guest Name"
-              value={variables.guestName}
-              onChange={(e) =>
-                setVariables({ ...variables, guestName: e.target.value })
-              }
-              className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none"
-            />
-            {needsLockboxCode && (
-              <input
-                type="text"
-                placeholder="Lockbox Code"
-                value={variables.lockboxCode}
-                onChange={(e) =>
-                  setVariables({ ...variables, lockboxCode: e.target.value })
-                }
-                className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none"
-              />
-            )}
-          </div>
+            {/* Trip List */}
+            <div className="space-y-3">
+              {filteredTrips.length === 0 ? (
+                <div className="bg-white rounded-2xl shadow-lg p-8 text-center text-gray-500">
+                  {tripFilter === "all" 
+                    ? "No active trips. Add one above!"
+                    : `No trips with status: ${statusLabels[tripFilter as TripStatus]}`}
+                </div>
+              ) : (
+                filteredTrips.map((trip) => (
+                  <div key={trip.id} className="bg-white rounded-2xl shadow-lg p-5">
+                    <div className="flex justify-between items-start mb-3">
+                      <div>
+                        <h3 className="font-bold text-lg text-gray-800">{trip.guestName}</h3>
+                        <p className="text-sm text-gray-500">
+                          {trip.car === "tesla" ? "Tesla Model Y" : "Hyundai Sonata"} • {" "}
+                          {trip.location === "airport" ? "Airport (HNL)" : "Kaneohe"}
+                        </p>
+                        <p className="text-sm text-gray-500">
+                          {new Date(trip.startDate).toLocaleDateString()} → {" "}
+                          {new Date(trip.endDate).toLocaleDateString()}
+                        </p>
+                        {trip.notes && (
+                          <p className="text-sm text-gray-600 mt-2 italic">{trip.notes}</p>
+                        )}
+                      </div>
+                      <span className={`px-3 py-1 rounded-full text-xs font-medium border ${statusColors[trip.status]}`}>
+                        {statusLabels[trip.status]}
+                      </span>
+                    </div>
 
-          {/* Generate Button */}
-          <button
-            onClick={handleGenerate}
-            className="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-4 rounded-xl transition-colors shadow-lg"
-          >
-            ✨ Generate Message
-          </button>
-        </div>
-
-        {/* Generated Message */}
-        {generatedMessage && (
-          <div className="bg-white rounded-2xl shadow-xl p-6 mb-6">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-lg font-semibold text-gray-800">Generated Message</h2>
-              <button
-                onClick={handleCopy}
-                className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                  copied
-                    ? "bg-green-100 text-green-700"
-                    : "bg-gray-100 hover:bg-gray-200 text-gray-700"
-                }`}
-              >
-                {copied ? "✅ Copied!" : "📋 Copy"}
-              </button>
-            </div>
-            <div className="bg-gray-50 rounded-xl p-4 whitespace-pre-wrap text-gray-700 text-sm leading-relaxed">
-              {generatedMessage}
+                    {/* Status Actions */}
+                    <div className="flex flex-wrap gap-2 pt-3 border-t border-gray-200">
+                      {trip.status === "booked" && (
+                        <button
+                          onClick={() => handleUpdateTripStatus(trip.id, "picked_up")}
+                          className="px-3 py-1.5 bg-yellow-100 hover:bg-yellow-200 text-yellow-700 rounded-lg text-sm font-medium transition-colors"
+                        >
+                          Mark Picked Up
+                        </button>
+                      )}
+                      {trip.status === "picked_up" && (
+                        <button
+                          onClick={() => handleUpdateTripStatus(trip.id, "returned")}
+                          className="px-3 py-1.5 bg-orange-100 hover:bg-orange-200 text-orange-700 rounded-lg text-sm font-medium transition-colors"
+                        >
+                          Mark Returned
+                        </button>
+                      )}
+                      {trip.status === "returned" && (
+                        <button
+                          onClick={() => handleUpdateTripStatus(trip.id, "reviewed")}
+                          className="px-3 py-1.5 bg-green-100 hover:bg-green-200 text-green-700 rounded-lg text-sm font-medium transition-colors"
+                        >
+                          Mark Reviewed
+                        </button>
+                      )}
+                      {trip.status === "reviewed" && (
+                        <button
+                          onClick={() => handleUpdateTripStatus(trip.id, "completed")}
+                          className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm font-medium transition-colors"
+                        >
+                          Complete
+                        </button>
+                      )}
+                      <button
+                        onClick={() => handleDeleteTrip(trip.id)}
+                        className="px-3 py-1.5 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg text-sm font-medium transition-colors ml-auto"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
           </div>
         )}
-
-        {/* FAQ Section */}
-        <div className="bg-white rounded-2xl shadow-xl p-6">
-          <h2 className="text-xl font-bold text-gray-800 mb-4">❓ Quick FAQ Responses</h2>
-          <p className="text-gray-600 mb-4 text-sm">Copy-paste answers to common guest questions</p>
-
-          {/* FAQ Categories */}
-          <div className="flex flex-wrap gap-2 mb-4">
-            {faqCategories.map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => {
-                  setActiveFaqCategory(cat.id);
-                  setSelectedFaq("");
-                  setFaqMessage("");
-                }}
-                className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  activeFaqCategory === cat.id
-                    ? "bg-teal-600 text-white"
-                    : "bg-gray-100 hover:bg-gray-200 text-gray-700"
-                }`}
-              >
-                {cat.label}
-              </button>
-            ))}
-          </div>
-
-          {/* FAQ Items */}
-          {activeFaqCategory && (
-            <div className="space-y-2 mb-4">
-              {faqCategories
-                .find((c) => c.id === activeFaqCategory)
-                ?.items.map((item) => (
-                  <button
-                    key={item}
-                    onClick={() => handleFaqSelect(item)}
-                    className={`w-full text-left p-3 rounded-lg border transition-all ${
-                      selectedFaq === item
-                        ? "border-teal-500 bg-teal-50 text-teal-700"
-                        : "border-gray-200 hover:border-teal-300 hover:bg-gray-50"
-                    }`}
-                  >
-                    {faqLabels[item] || item}
-                  </button>
-                ))}
-            </div>
-          )}
-
-          {/* FAQ Generated Message */}
-          {faqMessage && (
-            <div className="border-t border-gray-200 pt-4">
-              <div className="flex justify-between items-center mb-3">
-                <h3 className="font-semibold text-gray-800">Response</h3>
-                <button
-                  onClick={handleFaqCopy}
-                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                    faqCopied
-                      ? "bg-green-100 text-green-700"
-                      : "bg-gray-100 hover:bg-gray-200 text-gray-700"
-                  }`}
-                >
-                  {faqCopied ? "✅ Copied!" : "📋 Copy"}
-                </button>
-              </div>
-              <div className="bg-gray-50 rounded-xl p-4 whitespace-pre-wrap text-gray-700 text-sm leading-relaxed">
-                {faqMessage}
-              </div>
-            </div>
-          )}
-        </div>
 
         {/* Footer */}
         <div className="text-center mt-8 text-white/80 text-sm">

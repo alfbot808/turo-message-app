@@ -21,3 +21,17 @@ export type MessageTemplates = {
 export type FAQTemplates = {
   [key: string]: MessageTemplate;
 };
+
+export type TripStatus = "booked" | "picked_up" | "returned" | "reviewed" | "completed";
+
+export interface Trip {
+  id: string;
+  guestName: string;
+  car: Car;
+  location: Location;
+  startDate: string;
+  endDate: string;
+  status: TripStatus;
+  notes?: string;
+  createdAt: string;
+}
