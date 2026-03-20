@@ -31,6 +31,8 @@ export interface Trip {
   location: Location;
   startDate: string;
   endDate: string;
+  pickupTime?: string;
+  returnTime?: string;
   status: TripStatus;
   notes?: string;
   createdAt: string;

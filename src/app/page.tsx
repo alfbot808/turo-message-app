@@ -562,6 +562,27 @@ export default function Home() {
                   </div>
                 </div>
 
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-600 mb-1">Pickup Time</label>
+                    <input
+                      type="time"
+                      value={newTrip.pickupTime || ""}
+                      onChange={(e) => setNewTrip({ ...newTrip, pickupTime: e.target.value })}
+                      className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-600 mb-1">Return Time</label>
+                    <input
+                      type="time"
+                      value={newTrip.returnTime || ""}
+                      onChange={(e) => setNewTrip({ ...newTrip, returnTime: e.target.value })}
+                      className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 outline-none"
+                    />
+                  </div>
+                </div>
+
                 <input
                   type="text"
                   placeholder="Notes (optional)"
@@ -622,8 +643,8 @@ export default function Home() {
                           {trip.location === "airport" ? "Airport (HNL)" : "Kaneohe"}
                         </p>
                         <p className="text-sm text-gray-500">
-                          {new Date(trip.startDate).toLocaleDateString()} → {" "}
-                          {new Date(trip.endDate).toLocaleDateString()}
+                          {new Date(trip.startDate).toLocaleDateString()} {trip.pickupTime && `at ${trip.pickupTime}`} → {" "}
+                          {new Date(trip.endDate).toLocaleDateString()} {trip.returnTime && `at ${trip.returnTime}`}
                         </p>
                         {trip.notes && (
                           <p className="text-sm text-gray-600 mt-2 italic">{trip.notes}</p>
