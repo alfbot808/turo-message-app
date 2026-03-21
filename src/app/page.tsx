@@ -37,6 +37,11 @@ const faqLabels: Record<string, string> = {
   mileage: "What about mileage limits?",
 };
 
+const carData: Record<Car, { name: string; plate: string; year: string; color: string; icon: string }> = {
+  tesla: { name: "Tesla Model Y", plate: "0T79", year: "2026", color: "bg-slate-100", icon: "⚡" },
+  hyundai: { name: "Hyundai Sonata", plate: "097H", year: "2026", color: "bg-white", icon: "🚗" },
+};
+
 const statusLabels: Record<TripStatus, string> = {
   booked: "📋 Booked",
   picked_up: "🚘 Picked Up",
@@ -232,29 +237,38 @@ export default function Home() {
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Select Car
                 </label>
-                <div className="grid grid-cols-2 gap-3">
-                  <button
-                    onClick={() => setCar("tesla")}
-                    className={`p-4 rounded-xl border-2 transition-all ${
-                      car === "tesla"
-                        ? "border-teal-500 bg-teal-50 text-teal-700"
-                        : "border-gray-200 hover:border-teal-300"
-                    }`}
-                  >
-                    <div className="font-semibold">Tesla Model Y</div>
-                    <div className="text-xs text-gray-500">Space Grey • 0T79</div>
-                  </button>
-                  <button
-                    onClick={() => setCar("hyundai")}
-                    className={`p-4 rounded-xl border-2 transition-all ${
-                      car === "hyundai"
-                        ? "border-teal-500 bg-teal-50 text-teal-700"
-                        : "border-gray-200 hover:border-teal-300"
-                    }`}
-                  >
-                    <div className="font-semibold">Hyundai Sonata</div>
-                    <div className="text-xs text-gray-500">White • 097H</div>
-                  </button>
+                <div className="space-y-3">
+                  {(Object.keys(carData) as Car[]).map((carKey) => (
+                    <button
+                      key={carKey}
+                      onClick={() => setCar(carKey)}
+                      className={`w-full p-4 rounded-xl border-2 transition-all flex items-center gap-4 ${
+                        car === carKey
+                          ? "border-teal-500 bg-teal-50 text-teal-700"
+                          : "border-gray-200 hover:border-teal-300 bg-white"
+                      }`}
+                    >
+                      {/* Car Image Placeholder */}
+                      <div className={`w-16 h-12 ${carData[carKey].color} rounded-lg flex items-center justify-center text-2xl shadow-sm border border-gray-200`}>
+                        {carData[carKey].icon}
+                      </div>
+                      
+                      {/* Car Info */}
+                      <div className="flex-1 text-left">
+                        <div className="font-semibold text-gray-800">
+                          {carData[carKey].year} {carData[carKey].name}
+                        </div>
+                        <div className="text-sm text-gray-500 font-medium">
+                          {carData[carKey].plate}
+                        </div>
+                      </div>
+                      
+                      {/* Arrow */}
+                      <div className="text-gray-400">
+                        ›
+                      </div>
+                    </button>
+                  ))}
                 </div>
               </div>
 
@@ -496,26 +510,25 @@ export default function Home() {
                 />
 
                 <div className="grid grid-cols-2 gap-3">
-                  <button
-                    onClick={() => setNewTrip({ ...newTrip, car: "tesla" })}
-                    className={`p-3 rounded-xl border-2 transition-all ${
-                      newTrip.car === "tesla"
-                        ? "border-teal-500 bg-teal-50 text-teal-700"
-                        : "border-gray-200 hover:border-teal-300"
-                    }`}
-                  >
-                    Tesla Model Y
-                  </button>
-                  <button
-                    onClick={() => setNewTrip({ ...newTrip, car: "hyundai" })}
-                    className={`p-3 rounded-xl border-2 transition-all ${
-                      newTrip.car === "hyundai"
-                        ? "border-teal-500 bg-teal-50 text-teal-700"
-                        : "border-gray-200 hover:border-teal-300"
-                    }`}
-                  >
-                    Hyundai Sonata
-                  </button>
+                  {(Object.keys(carData) as Car[]).map((carKey) => (
+                    <button
+                      key={carKey}
+                      onClick={() => setNewTrip({ ...newTrip, car: carKey })}
+                      className={`p-3 rounded-xl border-2 transition-all flex items-center gap-2 ${
+                        newTrip.car === carKey
+                          ? "border-teal-500 bg-teal-50 text-teal-700"
+                          : "border-gray-200 hover:border-teal-300 bg-white"
+                      }`}
+                    >
+                      <div className={`w-8 h-8 ${carData[carKey].color} rounded flex items-center justify-center text-lg shadow-sm border border-gray-200`}>
+                        {carData[carKey].icon}
+                      </div>
+                      <div className="text-left">
+                        <div className="font-medium text-sm">{carData[carKey].year}</div>
+                        <div className="text-xs text-gray-500">{carData[carKey].plate}</div>
+                      </div>
+                    </button>
+                  ))}
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
@@ -639,8 +652,7 @@ export default function Home() {
                       <div>
                         <h3 className="font-bold text-lg text-gray-800">{trip.guestName}</h3>
                         <p className="text-sm text-gray-500">
-                          {trip.car === "tesla" ? "Tesla Model Y" : "Hyundai Sonata"} • {" "}
-                          {trip.location === "airport" ? "Airport (HNL)" : "Kaneohe"}
+                          {carData[trip.car].year} {carData[trip.car].name} • {carData[trip.car].plate}
                         </p>
                         <p className="text-sm text-gray-500">
                           {new Date(trip.startDate).toLocaleDateString()} {trip.pickupTime && `at ${trip.pickupTime}`} → {" "}
