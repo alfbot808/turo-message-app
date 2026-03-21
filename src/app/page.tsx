@@ -37,9 +37,9 @@ const faqLabels: Record<string, string> = {
   mileage: "What about mileage limits?",
 };
 
-const carData: Record<Car, { name: string; plate: string; year: string; color: string; icon: string }> = {
-  tesla: { name: "Tesla Model Y", plate: "0T79", year: "2026", color: "bg-slate-100", icon: "⚡" },
-  hyundai: { name: "Hyundai Sonata", plate: "097H", year: "2026", color: "bg-white", icon: "🚗" },
+const carData: Record<Car, { name: string; plate: string; year: string; image: string }> = {
+  tesla: { name: "Tesla Model Y", plate: "0T79", year: "2026", image: "/tesla-model-y.jpg" },
+  hyundai: { name: "Hyundai Sonata", plate: "097H", year: "2026", image: "/hyundai-sonata.jpg" },
 };
 
 const statusLabels: Record<TripStatus, string> = {
@@ -248,10 +248,12 @@ export default function Home() {
                           : "border-gray-200 hover:border-teal-300 bg-white"
                       }`}
                     >
-                      {/* Car Image Placeholder */}
-                      <div className={`w-16 h-12 ${carData[carKey].color} rounded-lg flex items-center justify-center text-2xl shadow-sm border border-gray-200`}>
-                        {carData[carKey].icon}
-                      </div>
+                      {/* Car Image */}
+                      <img 
+                        src={carData[carKey].image} 
+                        alt={carData[carKey].name}
+                        className="w-20 h-14 object-cover rounded-lg shadow-sm border border-gray-200"
+                      />
                       
                       {/* Car Info */}
                       <div className="flex-1 text-left">
@@ -520,9 +522,11 @@ export default function Home() {
                           : "border-gray-200 hover:border-teal-300 bg-white"
                       }`}
                     >
-                      <div className={`w-8 h-8 ${carData[carKey].color} rounded flex items-center justify-center text-lg shadow-sm border border-gray-200`}>
-                        {carData[carKey].icon}
-                      </div>
+                      <img 
+                        src={carData[carKey].image} 
+                        alt={carData[carKey].name}
+                        className="w-10 h-8 object-cover rounded shadow-sm border border-gray-200"
+                      />
                       <div className="text-left">
                         <div className="font-medium text-sm">{carData[carKey].year}</div>
                         <div className="text-xs text-gray-500">{carData[carKey].plate}</div>
