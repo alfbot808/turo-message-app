@@ -257,10 +257,10 @@ export default function Home() {
                       
                       {/* Car Info */}
                       <div className="flex-1 text-left">
-                        <div className="font-semibold text-gray-800">
+                        <div className={`font-semibold ${car === carKey ? "text-teal-900" : "text-gray-800"}`}>
                           {carData[carKey].year} {carData[carKey].name}
                         </div>
-                        <div className="text-sm text-gray-500 font-medium">
+                        <div className={`text-sm font-medium ${car === carKey ? "text-teal-700" : "text-gray-500"}`}>
                           {carData[carKey].plate}
                         </div>
                       </div>
@@ -518,18 +518,22 @@ export default function Home() {
                       onClick={() => setNewTrip({ ...newTrip, car: carKey })}
                       className={`p-3 rounded-xl border-2 transition-all flex items-center gap-2 ${
                         newTrip.car === carKey
-                          ? "border-teal-500 bg-teal-50 text-teal-700"
+                          ? "border-teal-500 bg-teal-50"
                           : "border-gray-200 hover:border-teal-300 bg-white"
                       }`}
                     >
                       <img 
                         src={carData[carKey].image} 
                         alt={carData[carKey].name}
-                        className="w-10 h-8 object-cover rounded shadow-sm border border-gray-200"
+                        className="w-12 h-9 object-cover rounded shadow-sm border border-gray-200"
                       />
                       <div className="text-left">
-                        <div className="font-medium text-sm">{carData[carKey].year}</div>
-                        <div className="text-xs text-gray-500">{carData[carKey].plate}</div>
+                        <div className={`font-semibold text-sm ${newTrip.car === carKey ? "text-teal-800" : "text-gray-800"}`}>
+                          {carData[carKey].year} {carData[carKey].name.split(' ')[0]}
+                        </div>
+                        <div className={`text-xs font-medium ${newTrip.car === carKey ? "text-teal-600" : "text-gray-500"}`}>
+                          {carData[carKey].plate}
+                        </div>
                       </div>
                     </button>
                   ))}
