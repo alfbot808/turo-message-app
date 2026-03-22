@@ -85,6 +85,8 @@ export default function Home() {
     car: "tesla",
     location: "airport",
     status: "booked",
+    pickupTime: "12:00",
+    returnTime: "12:00",
   });
   const [tripFilter, setTripFilter] = useState<TripStatus | "all">("all");
 
@@ -588,6 +590,7 @@ export default function Home() {
                     <label className="block text-sm font-medium text-black mb-1">Pickup Time</label>
                     <input
                       type="time"
+                      step="1800"
                       value={newTrip.pickupTime || ""}
                       onChange={(e) => setNewTrip({ ...newTrip, pickupTime: e.target.value })}
                       className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-cyan-400 outline-none text-black"
@@ -597,6 +600,7 @@ export default function Home() {
                     <label className="block text-sm font-medium text-black mb-1">Return Time</label>
                     <input
                       type="time"
+                      step="1800"
                       value={newTrip.returnTime || ""}
                       onChange={(e) => setNewTrip({ ...newTrip, returnTime: e.target.value })}
                       className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-cyan-400 outline-none text-black"
