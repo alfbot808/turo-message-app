@@ -191,9 +191,9 @@ export default function Home() {
     <main className="min-h-screen p-4 md:p-8">
       <div className="max-w-2xl mx-auto">
         {/* Header */}
-        <div className="bg-white rounded-2xl shadow-xl p-6 mb-6">
-          <h1 className="text-3xl font-bold text-black mb-2">🚗 Turo Message Generator</h1>
-          <p className="text-black">Never send the wrong info to guests again.</p>
+        <div className="bg-cyan-400 rounded-2xl shadow-xl p-6 mb-6 text-center">
+          <h1 className="text-3xl font-black text-black mb-2 tracking-tight">🚗 Turo Message Generator</h1>
+          <p className="text-black text-sm font-medium uppercase tracking-widest">Never send the wrong info to guests again.</p>
         </div>
 
         {/* Tab Navigation */}
