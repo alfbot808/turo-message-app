@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Turo Message Generator",
-  description: "Generate the perfect message for your Turo guests",
+  title: "Hostly - Never send the wrong info to guests again",
+  description: "The smart messaging tool for Turo hosts. Generate the right message for the right guest, every time.",
 };
 
 export default function RootLayout({

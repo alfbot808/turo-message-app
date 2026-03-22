@@ -1,4 +1,4 @@
-# Turo Message Generator - Demo Script
+# Hostly - Demo Script
 
 ## Recording Setup
 - Use your phone, screen record on
@@ -10,7 +10,7 @@
 ## Opening (5 seconds)
 **[Show Messages tab, scroll slightly]**
 
-"This is the Turo Message Generator I built. I have two cars — a Tesla and a Hyundai — at two locations, airport and Kaneohe. Problem is, I kept sending the wrong info to guests. Tesla checkout instructions to Hyundai guests, airport directions to Kaneohe pickups..."
+"This is Hostly — the tool I built for Turo hosts. I have two cars — a Tesla and a Hyundai — at two locations, airport and Kaneohe. Problem is, I kept sending the wrong info to guests. Tesla checkout instructions to Hyundai guests, airport directions to Kaneohe pickups..."
 
 ---
 
