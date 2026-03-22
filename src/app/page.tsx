@@ -345,7 +345,7 @@ export default function Home() {
                   onChange={(e) =>
                     setVariables({ ...variables, guestName: e.target.value })
                   }
-                  className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-cyan-400 focus:border-transparent outline-none"
+                  className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-cyan-400 focus:border-transparent outline-none text-black"
                 />
                 {needsLockboxCode && (
                   <input
@@ -355,7 +355,7 @@ export default function Home() {
                     onChange={(e) =>
                       setVariables({ ...variables, lockboxCode: e.target.value })
                     }
-                    className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-cyan-400 focus:border-transparent outline-none"
+                    className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-cyan-400 focus:border-transparent outline-none text-black"
                   />
                 )}
               </div>
@@ -508,7 +508,7 @@ export default function Home() {
                   placeholder="Guest Name"
                   value={newTrip.guestName || ""}
                   onChange={(e) => setNewTrip({ ...newTrip, guestName: e.target.value })}
-                  className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-cyan-400 outline-none"
+                  className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-cyan-400 outline-none text-black"
                 />
 
                 <div className="grid grid-cols-2 gap-3">
@@ -609,7 +609,7 @@ export default function Home() {
                   placeholder="Notes (optional)"
                   value={newTrip.notes || ""}
                   onChange={(e) => setNewTrip({ ...newTrip, notes: e.target.value })}
-                  className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-cyan-400 outline-none"
+                  className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-cyan-400 outline-none text-black"
                 />
 
                 <button
