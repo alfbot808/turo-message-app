@@ -192,8 +192,8 @@ export default function Home() {
       <div className="max-w-2xl mx-auto">
         {/* Header */}
         <div className="bg-white rounded-2xl shadow-xl p-6 mb-6">
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">🚗 Turo Message Generator</h1>
-          <p className="text-gray-600">Never send the wrong info to guests again.</p>
+          <h1 className="text-3xl font-bold text-black mb-2">🚗 Turo Message Generator</h1>
+          <p className="text-black">Never send the wrong info to guests again.</p>
         </div>
 
         {/* Tab Navigation */}
@@ -203,8 +203,8 @@ export default function Home() {
               onClick={() => setActiveTab("messages")}
               className={`py-3 px-4 rounded-xl font-semibold transition-all ${
                 activeTab === "messages"
-                  ? "bg-teal-600 text-white shadow-md"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  ? "bg-cyan-400 text-black shadow-md"
+                  : "bg-gray-100 text-black hover:bg-gray-200"
               }`}
             >
               💬 Messages
@@ -213,13 +213,13 @@ export default function Home() {
               onClick={() => setActiveTab("trips")}
               className={`py-3 px-4 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 ${
                 activeTab === "trips"
-                  ? "bg-teal-600 text-white shadow-md"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  ? "bg-cyan-400 text-black shadow-md"
+                  : "bg-gray-100 text-black hover:bg-gray-200"
               }`}
             >
               📊 Trip Tracker
               {stats.active > 0 && (
-                <span className="bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">
+                <span className="bg-black text-white text-xs px-2 py-0.5 rounded-full">
                   {stats.active}
                 </span>
               )}
@@ -234,7 +234,7 @@ export default function Home() {
             <div className="bg-white rounded-2xl shadow-xl p-6 mb-6 space-y-6">
               {/* Car Selection */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-black mb-2">
                   Select Car
                 </label>
                 <div className="space-y-3">
@@ -244,8 +244,8 @@ export default function Home() {
                       onClick={() => setCar(carKey)}
                       className={`w-full p-4 rounded-xl border-2 transition-all flex items-center gap-4 ${
                         car === carKey
-                          ? "border-teal-500 bg-teal-50 text-teal-700"
-                          : "border-gray-200 hover:border-teal-300 bg-white"
+                          ? "border-cyan-400 bg-cyan-50"
+                          : "border-gray-200 hover:border-cyan-300 bg-white"
                       }`}
                     >
                       {/* Car Image */}
@@ -257,10 +257,10 @@ export default function Home() {
                       
                       {/* Car Info */}
                       <div className="flex-1 text-left">
-                        <div className={`font-semibold ${car === carKey ? "text-teal-900" : "text-gray-800"}`}>
+                        <div className={`font-semibold ${car === carKey ? "text-black" : "text-black"}`}>
                           {carData[carKey].year} {carData[carKey].name}
                         </div>
-                        <div className={`text-sm font-medium ${car === carKey ? "text-teal-700" : "text-gray-500"}`}>
+                        <div className={`text-sm font-medium ${car === carKey ? "text-black" : "text-black"}`}>
                           {carData[carKey].plate}
                         </div>
                       </div>
@@ -276,7 +276,7 @@ export default function Home() {
 
               {/* Location Selection */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-black mb-2">
                   Select Location
                 </label>
                 <div className="grid grid-cols-2 gap-3">
@@ -284,30 +284,30 @@ export default function Home() {
                     onClick={() => setLocation("airport")}
                     className={`p-4 rounded-xl border-2 transition-all ${
                       location === "airport"
-                        ? "border-teal-500 bg-teal-50 text-teal-700"
-                        : "border-gray-200 hover:border-teal-300"
+                        ? "border-cyan-400 bg-cyan-50"
+                        : "border-gray-200 hover:border-cyan-300 bg-white"
                     }`}
                   >
-                    <div className="font-semibold">✈️ Airport (HNL)</div>
-                    <div className="text-xs text-gray-500">Intl Garage, Level 7</div>
+                    <div className="font-semibold text-black">✈️ Airport (HNL)</div>
+                    <div className="text-xs text-black">Intl Garage, Level 7</div>
                   </button>
                   <button
                     onClick={() => setLocation("kaneohe")}
                     className={`p-4 rounded-xl border-2 transition-all ${
                       location === "kaneohe"
-                        ? "border-teal-500 bg-teal-50 text-teal-700"
-                        : "border-gray-200 hover:border-teal-300"
+                        ? "border-cyan-400 bg-cyan-50"
+                        : "border-gray-200 hover:border-cyan-300 bg-white"
                     }`}
                   >
-                    <div className="font-semibold">🏠 Kaneohe</div>
-                    <div className="text-xs text-gray-500">45-315 Lilipuna Rd, Stall 19</div>
+                    <div className="font-semibold text-black">🏠 Kaneohe</div>
+                    <div className="text-xs text-black">45-315 Lilipuna Rd, Stall 19</div>
                   </button>
                 </div>
               </div>
 
               {/* Stage Selection */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-black mb-2">
                   Message Stage
                 </label>
                 <div className="grid grid-cols-2 gap-3">
@@ -322,12 +322,12 @@ export default function Home() {
                       onClick={() => setStage(s.id as Stage)}
                       className={`p-4 rounded-xl border-2 text-left transition-all ${
                         stage === s.id
-                          ? "border-teal-500 bg-teal-50 text-teal-700"
-                          : "border-gray-200 hover:border-teal-300"
+                          ? "border-cyan-400 bg-cyan-50"
+                          : "border-gray-200 hover:border-cyan-300 bg-white"
                       }`}
                     >
-                      <div className="font-semibold text-sm">{s.label}</div>
-                      <div className="text-xs text-gray-500">{s.desc}</div>
+                      <div className="font-semibold text-sm text-black">{s.label}</div>
+                      <div className="text-xs text-black">{s.desc}</div>
                     </button>
                   ))}
                 </div>
@@ -335,7 +335,7 @@ export default function Home() {
 
               {/* Variables */}
               <div className="space-y-4 pt-4 border-t border-gray-200">
-                <label className="block text-sm font-semibold text-gray-700">
+                <label className="block text-sm font-semibold text-black">
                   Guest Details
                 </label>
                 <input
@@ -345,7 +345,7 @@ export default function Home() {
                   onChange={(e) =>
                     setVariables({ ...variables, guestName: e.target.value })
                   }
-                  className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none"
+                  className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-cyan-400 focus:border-transparent outline-none"
                 />
                 {needsLockboxCode && (
                   <input
@@ -355,7 +355,7 @@ export default function Home() {
                     onChange={(e) =>
                       setVariables({ ...variables, lockboxCode: e.target.value })
                     }
-                    className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none"
+                    className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-cyan-400 focus:border-transparent outline-none"
                   />
                 )}
               </div>
@@ -363,7 +363,7 @@ export default function Home() {
               {/* Generate Button */}
               <button
                 onClick={handleGenerate}
-                className="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-4 rounded-xl transition-colors shadow-lg"
+                className="w-full bg-cyan-400 hover:bg-cyan-500 text-black font-bold py-4 rounded-xl transition-colors shadow-lg"
               >
                 ✨ Generate Message
               </button>
@@ -373,7 +373,7 @@ export default function Home() {
             {generatedMessage && (
               <div className="bg-white rounded-2xl shadow-xl p-6 mb-6">
                 <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-lg font-semibold text-gray-800">Generated Message</h2>
+                  <h2 className="text-lg font-semibold text-black">Generated Message</h2>
                   <button
                     onClick={handleCopy}
                     className={`px-4 py-2 rounded-lg font-medium transition-colors ${
@@ -393,8 +393,8 @@ export default function Home() {
 
             {/* FAQ Section */}
             <div className="bg-white rounded-2xl shadow-xl p-6">
-              <h2 className="text-xl font-bold text-gray-800 mb-4">❓ Quick FAQ Responses</h2>
-              <p className="text-gray-600 mb-4 text-sm">Copy-paste answers to common guest questions</p>
+              <h2 className="text-xl font-bold text-black mb-4">❓ Quick FAQ Responses</h2>
+              <p className="text-black mb-4 text-sm">Copy-paste answers to common guest questions</p>
 
               {/* FAQ Categories */}
               <div className="flex flex-wrap gap-2 mb-4">
@@ -408,8 +408,8 @@ export default function Home() {
                     }}
                     className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                       activeFaqCategory === cat.id
-                        ? "bg-teal-600 text-white"
-                        : "bg-gray-100 hover:bg-gray-200 text-gray-700"
+                        ? "bg-cyan-400 text-black"
+                        : "bg-gray-100 hover:bg-gray-200 text-black"
                     }`}
                   >
                     {cat.label}
@@ -428,11 +428,11 @@ export default function Home() {
                         onClick={() => handleFaqSelect(item)}
                         className={`w-full text-left p-3 rounded-lg border transition-all ${
                           selectedFaq === item
-                            ? "border-teal-500 bg-teal-50 text-teal-700"
-                            : "border-gray-200 hover:border-teal-300 hover:bg-gray-50"
+                            ? "border-cyan-400 bg-cyan-50"
+                            : "border-gray-200 hover:border-cyan-300 hover:bg-gray-50"
                         }`}
                       >
-                        {faqLabels[item] || item}
+                        <span className="text-black">{faqLabels[item] || item}</span>
                       </button>
                     ))}
                 </div>
@@ -442,7 +442,7 @@ export default function Home() {
               {faqMessage && (
                 <div className="border-t border-gray-200 pt-4">
                   <div className="flex justify-between items-center mb-3">
-                    <h3 className="font-semibold text-gray-800">Response</h3>
+                    <h3 className="font-semibold text-black">Response</h3>
                     <button
                       onClick={handleFaqCopy}
                       className={`px-4 py-2 rounded-lg font-medium transition-colors ${
@@ -485,7 +485,7 @@ export default function Home() {
             {/* Add New Trip Button */}
             <button
               onClick={() => setShowNewTrip(true)}
-              className="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-4 rounded-xl transition-colors shadow-lg"
+              className="w-full bg-cyan-400 hover:bg-cyan-500 text-black font-bold py-4 rounded-xl transition-colors shadow-lg"
             >
               ➕ Add New Trip
             </button>
@@ -494,7 +494,7 @@ export default function Home() {
             {showNewTrip && (
               <div className="bg-white rounded-2xl shadow-xl p-6 space-y-4">
                 <div className="flex justify-between items-center">
-                  <h3 className="text-lg font-semibold text-gray-800">New Trip</h3>
+                  <h3 className="text-lg font-semibold text-black">New Trip</h3>
                   <button
                     onClick={() => setShowNewTrip(false)}
                     className="text-gray-400 hover:text-gray-600"
@@ -508,7 +508,7 @@ export default function Home() {
                   placeholder="Guest Name"
                   value={newTrip.guestName || ""}
                   onChange={(e) => setNewTrip({ ...newTrip, guestName: e.target.value })}
-                  className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 outline-none"
+                  className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-cyan-400 outline-none"
                 />
 
                 <div className="grid grid-cols-2 gap-3">
@@ -518,8 +518,8 @@ export default function Home() {
                       onClick={() => setNewTrip({ ...newTrip, car: carKey })}
                       className={`p-3 rounded-xl border-2 transition-all flex items-center gap-2 ${
                         newTrip.car === carKey
-                          ? "border-teal-500 bg-teal-50"
-                          : "border-gray-200 hover:border-teal-300 bg-white"
+                          ? "border-cyan-400 bg-cyan-50"
+                          : "border-gray-200 hover:border-cyan-300 bg-white"
                       }`}
                     >
                       <img 
@@ -528,10 +528,10 @@ export default function Home() {
                         className="w-12 h-9 object-cover rounded shadow-sm border border-gray-200"
                       />
                       <div className="text-left">
-                        <div className={`font-semibold text-sm ${newTrip.car === carKey ? "text-teal-800" : "text-gray-800"}`}>
+                        <div className={`font-semibold text-sm ${newTrip.car === carKey ? "text-black" : "text-black"}`}>
                           {carData[carKey].year} {carData[carKey].name.split(' ')[0]}
                         </div>
-                        <div className={`text-xs font-medium ${newTrip.car === carKey ? "text-teal-600" : "text-gray-500"}`}>
+                        <div className={`text-xs font-medium ${newTrip.car === carKey ? "text-black" : "text-black"}`}>
                           {carData[carKey].plate}
                         </div>
                       </div>
@@ -544,27 +544,27 @@ export default function Home() {
                     onClick={() => setNewTrip({ ...newTrip, location: "airport" })}
                     className={`p-3 rounded-xl border-2 transition-all ${
                       newTrip.location === "airport"
-                        ? "border-teal-500 bg-teal-50 text-teal-700"
-                        : "border-gray-200 hover:border-teal-300"
+                        ? "border-cyan-400 bg-cyan-50"
+                        : "border-gray-200 hover:border-cyan-300 bg-white"
                     }`}
                   >
-                    Airport (HNL)
+                    <span className="text-black">Airport (HNL)</span>
                   </button>
                   <button
                     onClick={() => setNewTrip({ ...newTrip, location: "kaneohe" })}
                     className={`p-3 rounded-xl border-2 transition-all ${
                       newTrip.location === "kaneohe"
-                        ? "border-teal-500 bg-teal-50 text-teal-700"
-                        : "border-gray-200 hover:border-teal-300"
+                        ? "border-cyan-400 bg-cyan-50"
+                        : "border-gray-200 hover:border-cyan-300 bg-white"
                     }`}
                   >
-                    Kaneohe
+                    <span className="text-black">Kaneohe</span>
                   </button>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-sm font-medium text-gray-600 mb-1">Start Date</label>
+                    <label className="block text-sm font-medium text-black mb-1">Start Date</label>
                     <input
                       type="date"
                       value={newTrip.startDate || ""}
@@ -573,33 +573,33 @@ export default function Home() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-600 mb-1">End Date</label>
+                    <label className="block text-sm font-medium text-black mb-1">End Date</label>
                     <input
                       type="date"
                       value={newTrip.endDate || ""}
                       onChange={(e) => setNewTrip({ ...newTrip, endDate: e.target.value })}
-                      className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 outline-none"
+                      className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-cyan-400 outline-none"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-sm font-medium text-gray-600 mb-1">Pickup Time</label>
+                    <label className="block text-sm font-medium text-black mb-1">Pickup Time</label>
                     <input
                       type="time"
                       value={newTrip.pickupTime || ""}
                       onChange={(e) => setNewTrip({ ...newTrip, pickupTime: e.target.value })}
-                      className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 outline-none"
+                      className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-cyan-400 outline-none"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-600 mb-1">Return Time</label>
+                    <label className="block text-sm font-medium text-black mb-1">Return Time</label>
                     <input
                       type="time"
                       value={newTrip.returnTime || ""}
                       onChange={(e) => setNewTrip({ ...newTrip, returnTime: e.target.value })}
-                      className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 outline-none"
+                      className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-cyan-400 outline-none"
                     />
                   </div>
                 </div>
@@ -609,13 +609,13 @@ export default function Home() {
                   placeholder="Notes (optional)"
                   value={newTrip.notes || ""}
                   onChange={(e) => setNewTrip({ ...newTrip, notes: e.target.value })}
-                  className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 outline-none"
+                  className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-cyan-400 outline-none"
                 />
 
                 <button
                   onClick={handleAddTrip}
                   disabled={!newTrip.guestName || !newTrip.startDate || !newTrip.endDate}
-                  className="w-full bg-teal-600 hover:bg-teal-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-bold py-3 rounded-xl transition-colors"
+                  className="w-full bg-cyan-400 hover:bg-cyan-500 disabled:bg-gray-300 disabled:cursor-not-allowed text-black font-bold py-3 rounded-xl transition-colors"
                 >
                   Add Trip
                 </button>
@@ -636,8 +636,8 @@ export default function Home() {
                   onClick={() => setTripFilter(filter.id as TripStatus | "all")}
                   className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                     tripFilter === filter.id
-                      ? "bg-teal-600 text-white"
-                      : "bg-white hover:bg-gray-100 text-gray-700 shadow"
+                      ? "bg-cyan-400 text-black"
+                      : "bg-white hover:bg-gray-100 text-black shadow"
                   }`}
                 >
                   {filter.label}
@@ -648,7 +648,7 @@ export default function Home() {
             {/* Trip List */}
             <div className="space-y-3">
               {filteredTrips.length === 0 ? (
-                <div className="bg-white rounded-2xl shadow-lg p-8 text-center text-gray-500">
+                <div className="bg-white rounded-2xl shadow-lg p-8 text-center text-black">
                   {tripFilter === "all" 
                     ? "No active trips. Add one above!"
                     : `No trips with status: ${statusLabels[tripFilter as TripStatus]}`}
@@ -658,16 +658,16 @@ export default function Home() {
                   <div key={trip.id} className="bg-white rounded-2xl shadow-lg p-5">
                     <div className="flex justify-between items-start mb-3">
                       <div>
-                        <h3 className="font-bold text-lg text-gray-800">{trip.guestName}</h3>
-                        <p className="text-sm text-gray-500">
+                        <h3 className="font-bold text-lg text-black">{trip.guestName}</h3>
+                        <p className="text-sm text-black">
                           {carData[trip.car].year} {carData[trip.car].name} • {carData[trip.car].plate}
                         </p>
-                        <p className="text-sm text-gray-500">
+                        <p className="text-sm text-black">
                           {new Date(trip.startDate).toLocaleDateString()} {trip.pickupTime && `at ${trip.pickupTime}`} → {" "}
                           {new Date(trip.endDate).toLocaleDateString()} {trip.returnTime && `at ${trip.returnTime}`}
                         </p>
                         {trip.notes && (
-                          <p className="text-sm text-gray-600 mt-2 italic">{trip.notes}</p>
+                          <p className="text-sm text-black mt-2 italic">{trip.notes}</p>
                         )}
                       </div>
                       <span className={`px-3 py-1 rounded-full text-xs font-medium border ${statusColors[trip.status]}`}>
