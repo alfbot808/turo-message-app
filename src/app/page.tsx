@@ -162,7 +162,7 @@ export default function Home() {
     
     setTrips([trip, ...trips]);
     setShowNewTrip(false);
-    setNewTrip({ car: "tesla", location: "airport", status: "booked" });
+    setNewTrip({ car: "tesla", location: "airport", status: "booked", pickupTime: "12:00", returnTime: "12:00" });
   };
 
   const handleUpdateTripStatus = (tripId: string, newStatus: TripStatus) => {
@@ -173,6 +173,33 @@ export default function Home() {
     if (confirm("Delete this trip?")) {
       setTrips(trips.filter(t => t.id !== tripId));
     }
+  };
+
+  // Helper: calculate hours until return
+  const getHoursUntilReturn = (endDate: string, returnTime?: string) => {
+    const now = new Date();
+    const returnDate = new Date(endDate);
+    if (returnTime) {
+      const [hours, minutes] = returnTime.split(':').map(Number);
+      returnDate.setHours(hours, minutes);
+    }
+    const diffMs = returnDate.getTime() - now.getTime();
+    return Math.ceil(diffMs / (1000 * 60 * 60));
+  };
+
+  // Helper: generate checkout message for a trip
+  const handleSendCheckout = (trip: Trip) => {
+    const template = messageTemplates[trip.car][trip.location].checkout;
+    let message = template;
+    message = message.replace(/\[Guest Name\]/g, trip.guestName);
+    message = message.replace(/\[Lockbox Code\]/g, "[Lockbox Code]");
+    setGeneratedMessage(message);
+    setCopied(false);
+    setActiveTab("messages");
+    setCar(trip.car);
+    setLocation(trip.location);
+    setStage("checkout");
+    setVariables({ guestName: trip.guestName, lockboxCode: "" });
   };
 
   const getTripStats = () => {
@@ -658,10 +685,14 @@ export default function Home() {
                     : `No trips with status: ${statusLabels[tripFilter as TripStatus]}`}
                 </div>
               ) : (
-                filteredTrips.map((trip) => (
+                filteredTrips.map((trip) => {
+                  const hoursUntilReturn = getHoursUntilReturn(trip.endDate, trip.returnTime);
+                  const showCheckoutWarning = trip.status === "picked_up" && hoursUntilReturn <= 24 && hoursUntilReturn > 0;
+                  
+                  return (
                   <div key={trip.id} className="bg-white rounded-2xl shadow-lg p-5">
                     <div className="flex justify-between items-start mb-3">
-                      <div>
+                      <div className="flex-1">
                         <h3 className="font-bold text-lg text-black">{trip.guestName}</h3>
                         <p className="text-sm text-black">
                           {carData[trip.car].year} {carData[trip.car].name} • {carData[trip.car].plate}
@@ -670,6 +701,14 @@ export default function Home() {
                           {new Date(trip.startDate).toLocaleDateString()} {trip.pickupTime && `at ${trip.pickupTime}`} → {" "}
                           {new Date(trip.endDate).toLocaleDateString()} {trip.returnTime && `at ${trip.returnTime}`}
                         </p>
+                        {showCheckoutWarning && (
+                          <div className="mt-2 px-3 py-2 bg-orange-100 border border-orange-300 rounded-lg flex items-center gap-2">
+                            <span className="text-orange-600">⏰</span>
+                            <span className="text-sm font-medium text-orange-700">
+                              Checkout due in {hoursUntilReturn} hour{hoursUntilReturn !== 1 ? 's' : ''}
+                            </span>
+                          </div>
+                        )}
                         {trip.notes && (
                           <p className="text-sm text-black mt-2 italic">{trip.notes}</p>
                         )}
@@ -690,12 +729,20 @@ export default function Home() {
                         </button>
                       )}
                       {trip.status === "picked_up" && (
-                        <button
-                          onClick={() => handleUpdateTripStatus(trip.id, "returned")}
-                          className="px-3 py-1.5 bg-orange-100 hover:bg-orange-200 text-orange-700 rounded-lg text-sm font-medium transition-colors"
-                        >
-                          Mark Returned
-                        </button>
+                        <>
+                          <button
+                            onClick={() => handleSendCheckout(trip)}
+                            className="px-3 py-1.5 bg-cyan-100 hover:bg-cyan-200 text-cyan-700 rounded-lg text-sm font-medium transition-colors"
+                          >
+                            📋 Send Checkout
+                          </button>
+                          <button
+                            onClick={() => handleUpdateTripStatus(trip.id, "returned")}
+                            className="px-3 py-1.5 bg-orange-100 hover:bg-orange-200 text-orange-700 rounded-lg text-sm font-medium transition-colors"
+                          >
+                            Mark Returned
+                          </button>
+                        </>
                       )}
                       {trip.status === "returned" && (
                         <button
@@ -721,7 +768,8 @@ export default function Home() {
                       </button>
                     </div>
                   </div>
-                ))
+                  );
+                })
               )}
             </div>
           </div>
