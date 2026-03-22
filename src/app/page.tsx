@@ -221,7 +221,7 @@ export default function Home() {
       <div className="max-w-2xl mx-auto">
         {/* Header */}
         <div className="bg-cyan-400 rounded-2xl shadow-xl p-6 mb-6 text-center">
-          <h1 className="text-4xl font-black text-black mb-2" style={{ fontFamily: "'Brush Script MT', 'Dancing Script', cursive" }}>Hostly</h1>
+          <img src="/logo.jpg" alt="Hostly" className="h-24 mx-auto mb-3" />
           <p className="text-black text-sm font-medium uppercase tracking-widest">Never send the wrong info to guests again.</p>
         </div>
 
