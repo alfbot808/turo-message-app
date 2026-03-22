@@ -569,7 +569,7 @@ export default function Home() {
                       type="date"
                       value={newTrip.startDate || ""}
                       onChange={(e) => setNewTrip({ ...newTrip, startDate: e.target.value })}
-                      className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 outline-none"
+                      className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-cyan-400 outline-none text-black"
                     />
                   </div>
                   <div>
@@ -578,7 +578,7 @@ export default function Home() {
                       type="date"
                       value={newTrip.endDate || ""}
                       onChange={(e) => setNewTrip({ ...newTrip, endDate: e.target.value })}
-                      className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-cyan-400 outline-none"
+                      className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-cyan-400 outline-none text-black"
                     />
                   </div>
                 </div>
@@ -590,7 +590,7 @@ export default function Home() {
                       type="time"
                       value={newTrip.pickupTime || ""}
                       onChange={(e) => setNewTrip({ ...newTrip, pickupTime: e.target.value })}
-                      className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-cyan-400 outline-none"
+                      className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-cyan-400 outline-none text-black"
                     />
                   </div>
                   <div>
@@ -599,7 +599,7 @@ export default function Home() {
                       type="time"
                       value={newTrip.returnTime || ""}
                       onChange={(e) => setNewTrip({ ...newTrip, returnTime: e.target.value })}
-                      className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-cyan-400 outline-none"
+                      className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-cyan-400 outline-none text-black"
                     />
                   </div>
                 </div>
