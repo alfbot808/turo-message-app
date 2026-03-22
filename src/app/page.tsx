@@ -776,7 +776,7 @@ export default function Home() {
 
         {/* Footer */}
         <div className="flex justify-center mt-8">
-          <img src="/hostly-text.png" alt="Hostly" className="h-8 w-auto opacity-80" />
+          <img src="/hostly-text-v2.jpg" alt="Hostly" className="h-10 w-auto" />
         </div>
       </div>
     </main>
