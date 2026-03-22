@@ -220,8 +220,8 @@ export default function Home() {
     <main className="min-h-screen p-4 md:p-8">
       <div className="max-w-2xl mx-auto">
         {/* Header */}
-        <div className="bg-white rounded-2xl shadow-xl p-6 mb-6 flex justify-center items-center">
-          <img src="/logo.jpg" alt="Hostly" className="h-32 w-auto" />
+        <div className="bg-white rounded-2xl shadow-xl p-8 mb-6 flex justify-center items-center">
+          <img src="/logo.jpg" alt="Hostly" className="h-48 w-auto" />
         </div>
 
         {/* Tab Navigation */}
