@@ -38,8 +38,8 @@ const faqLabels: Record<string, string> = {
 };
 
 const carData: Record<Car, { name: string; plate: string; year: string; image: string }> = {
-  tesla: { name: "Tesla Model Y", plate: "0T79", year: "2026", image: "/tesla-model-y.jpg" },
-  hyundai: { name: "Hyundai Sonata", plate: "097H", year: "2026", image: "/hyundai-sonata.jpg" },
+  tesla: { name: "Tesla Model Y", plate: "0T79", year: "2026", image: "/tesla-model-y.png" },
+  hyundai: { name: "Hyundai Sonata", plate: "097H", year: "2026", image: "/hyundai-sonata.png" },
 };
 
 const statusLabels: Record<TripStatus, string> = {
