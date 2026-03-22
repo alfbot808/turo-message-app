@@ -191,7 +191,7 @@ export default function Home() {
     <main className="min-h-screen p-4 md:p-8">
       <div className="max-w-2xl mx-auto">
         {/* Header */}
-        <div className="bg-gray-400 rounded-2xl shadow-xl p-6 mb-6 text-center">
+        <div className="bg-cyan-400 rounded-2xl shadow-xl p-6 mb-6 text-center">
           <h1 className="text-4xl font-black text-black mb-2" style={{ fontFamily: "'Brush Script MT', 'Dancing Script', cursive" }}>Turo Message Generator</h1>
           <p className="text-black text-sm font-medium uppercase tracking-widest">Never send the wrong info to guests again.</p>
         </div>
@@ -203,7 +203,7 @@ export default function Home() {
               onClick={() => setActiveTab("messages")}
               className={`py-3 px-4 rounded-xl font-semibold transition-all ${
                 activeTab === "messages"
-                  ? "bg-gray-400 text-black shadow-md"
+                  ? "bg-cyan-400 text-black shadow-md"
                   : "bg-gray-100 text-black hover:bg-gray-200"
               }`}
             >
@@ -213,7 +213,7 @@ export default function Home() {
               onClick={() => setActiveTab("trips")}
               className={`py-3 px-4 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 ${
                 activeTab === "trips"
-                  ? "bg-gray-400 text-black shadow-md"
+                  ? "bg-cyan-400 text-black shadow-md"
                   : "bg-gray-100 text-black hover:bg-gray-200"
               }`}
             >
@@ -244,8 +244,8 @@ export default function Home() {
                       onClick={() => setCar(carKey)}
                       className={`p-4 rounded-xl border-2 transition-all flex items-center gap-4 ${
                         car === carKey
-                          ? "border-gray-400 bg-gray-100"
-                          : "border-gray-200 hover:border-gray-300 bg-white"
+                          ? "border-cyan-400 bg-cyan-50"
+                          : "border-gray-200 hover:border-cyan-300 bg-white"
                       }`}
                     >
                       {/* Car Image */}
@@ -284,8 +284,8 @@ export default function Home() {
                     onClick={() => setLocation("airport")}
                     className={`p-4 rounded-xl border-2 transition-all ${
                       location === "airport"
-                        ? "border-gray-400 bg-gray-100"
-                        : "border-gray-200 hover:border-gray-300 bg-white"
+                        ? "border-cyan-400 bg-cyan-50"
+                        : "border-gray-200 hover:border-cyan-300 bg-white"
                     }`}
                   >
                     <div className="font-semibold text-black">✈️ Airport (HNL)</div>
@@ -295,8 +295,8 @@ export default function Home() {
                     onClick={() => setLocation("kaneohe")}
                     className={`p-4 rounded-xl border-2 transition-all ${
                       location === "kaneohe"
-                        ? "border-gray-400 bg-gray-100"
-                        : "border-gray-200 hover:border-gray-300 bg-white"
+                        ? "border-cyan-400 bg-cyan-50"
+                        : "border-gray-200 hover:border-cyan-300 bg-white"
                     }`}
                   >
                     <div className="font-semibold text-black">🏠 Kaneohe</div>
@@ -322,8 +322,8 @@ export default function Home() {
                       onClick={() => setStage(s.id as Stage)}
                       className={`p-4 rounded-xl border-2 text-left transition-all ${
                         stage === s.id
-                          ? "border-gray-400 bg-gray-100"
-                          : "border-gray-200 hover:border-gray-300 bg-white"
+                          ? "border-cyan-400 bg-cyan-50"
+                          : "border-gray-200 hover:border-cyan-300 bg-white"
                       }`}
                     >
                       <div className="font-semibold text-sm text-black">{s.label}</div>
@@ -345,7 +345,7 @@ export default function Home() {
                   onChange={(e) =>
                     setVariables({ ...variables, guestName: e.target.value })
                   }
-                  className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-gray-400 focus:border-transparent outline-none"
+                  className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-cyan-400 focus:border-transparent outline-none"
                 />
                 {needsLockboxCode && (
                   <input
@@ -355,7 +355,7 @@ export default function Home() {
                     onChange={(e) =>
                       setVariables({ ...variables, lockboxCode: e.target.value })
                     }
-                    className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-gray-400 focus:border-transparent outline-none"
+                    className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-cyan-400 focus:border-transparent outline-none"
                   />
                 )}
               </div>
@@ -408,7 +408,7 @@ export default function Home() {
                     }}
                     className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                       activeFaqCategory === cat.id
-                        ? "bg-gray-400 text-black"
+                        ? "bg-cyan-400 text-black"
                         : "bg-gray-100 hover:bg-gray-200 text-black"
                     }`}
                   >
@@ -428,8 +428,8 @@ export default function Home() {
                         onClick={() => handleFaqSelect(item)}
                         className={`w-full text-left p-3 rounded-lg border transition-all ${
                           selectedFaq === item
-                            ? "border-gray-400 bg-gray-100"
-                            : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
+                            ? "border-cyan-400 bg-cyan-50"
+                            : "border-gray-200 hover:border-cyan-300 hover:bg-gray-50"
                         }`}
                       >
                         <span className="text-black">{faqLabels[item] || item}</span>
@@ -508,7 +508,7 @@ export default function Home() {
                   placeholder="Guest Name"
                   value={newTrip.guestName || ""}
                   onChange={(e) => setNewTrip({ ...newTrip, guestName: e.target.value })}
-                  className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-gray-400 outline-none"
+                  className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-cyan-400 outline-none"
                 />
 
                 <div className="grid grid-cols-2 gap-3">
@@ -518,8 +518,8 @@ export default function Home() {
                       onClick={() => setNewTrip({ ...newTrip, car: carKey })}
                       className={`p-3 rounded-xl border-2 transition-all flex items-center gap-2 ${
                         newTrip.car === carKey
-                          ? "border-gray-400 bg-gray-100"
-                          : "border-gray-200 hover:border-gray-300 bg-white"
+                          ? "border-cyan-400 bg-cyan-50"
+                          : "border-gray-200 hover:border-cyan-300 bg-white"
                       }`}
                     >
                       <img 
@@ -544,8 +544,8 @@ export default function Home() {
                     onClick={() => setNewTrip({ ...newTrip, location: "airport" })}
                     className={`p-3 rounded-xl border-2 transition-all ${
                       newTrip.location === "airport"
-                        ? "border-gray-400 bg-gray-100"
-                        : "border-gray-200 hover:border-gray-300 bg-white"
+                        ? "border-cyan-400 bg-cyan-50"
+                        : "border-gray-200 hover:border-cyan-300 bg-white"
                     }`}
                   >
                     <span className="text-black">Airport (HNL)</span>
@@ -554,8 +554,8 @@ export default function Home() {
                     onClick={() => setNewTrip({ ...newTrip, location: "kaneohe" })}
                     className={`p-3 rounded-xl border-2 transition-all ${
                       newTrip.location === "kaneohe"
-                        ? "border-gray-400 bg-gray-100"
-                        : "border-gray-200 hover:border-gray-300 bg-white"
+                        ? "border-cyan-400 bg-cyan-50"
+                        : "border-gray-200 hover:border-cyan-300 bg-white"
                     }`}
                   >
                     <span className="text-black">Kaneohe</span>
@@ -569,7 +569,7 @@ export default function Home() {
                       type="date"
                       value={newTrip.startDate || ""}
                       onChange={(e) => setNewTrip({ ...newTrip, startDate: e.target.value })}
-                      className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-gray-400 outline-none text-black"
+                      className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-cyan-400 outline-none text-black"
                     />
                   </div>
                   <div>
@@ -578,7 +578,7 @@ export default function Home() {
                       type="date"
                       value={newTrip.endDate || ""}
                       onChange={(e) => setNewTrip({ ...newTrip, endDate: e.target.value })}
-                      className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-gray-400 outline-none text-black"
+                      className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-cyan-400 outline-none text-black"
                     />
                   </div>
                 </div>
@@ -590,7 +590,7 @@ export default function Home() {
                       type="time"
                       value={newTrip.pickupTime || ""}
                       onChange={(e) => setNewTrip({ ...newTrip, pickupTime: e.target.value })}
-                      className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-gray-400 outline-none text-black"
+                      className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-cyan-400 outline-none text-black"
                     />
                   </div>
                   <div>
@@ -599,7 +599,7 @@ export default function Home() {
                       type="time"
                       value={newTrip.returnTime || ""}
                       onChange={(e) => setNewTrip({ ...newTrip, returnTime: e.target.value })}
-                      className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-gray-400 outline-none text-black"
+                      className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-cyan-400 outline-none text-black"
                     />
                   </div>
                 </div>
@@ -609,7 +609,7 @@ export default function Home() {
                   placeholder="Notes (optional)"
                   value={newTrip.notes || ""}
                   onChange={(e) => setNewTrip({ ...newTrip, notes: e.target.value })}
-                  className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-gray-400 outline-none"
+                  className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-cyan-400 outline-none"
                 />
 
                 <button
@@ -636,7 +636,7 @@ export default function Home() {
                   onClick={() => setTripFilter(filter.id as TripStatus | "all")}
                   className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                     tripFilter === filter.id
-                      ? "bg-gray-400 text-black"
+                      ? "bg-cyan-400 text-black"
                       : "bg-white hover:bg-gray-100 text-black shadow"
                   }`}
                 >
