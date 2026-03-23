@@ -220,7 +220,7 @@ export default function Home() {
     <main className="min-h-screen p-4 md:p-8">
       <div className="max-w-2xl mx-auto">
         {/* Header */}
-        <div className="bg-white rounded-2xl shadow-xl p-4 mb-6 flex justify-center items-center">
+        <div className="bg-white rounded-2xl shadow-xl p-2 mb-6 flex justify-center items-center">
           <img src="/logo.jpg" alt="Hostly" className="h-48 w-auto" />
         </div>
 
