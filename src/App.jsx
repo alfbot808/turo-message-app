@@ -55,9 +55,9 @@ export default function App() {
 
   return (
     <div className="flex flex-col h-screen bg-gray-50 overflow-hidden">
-      {/* Vehicle Tabs (Top - Scrollable) */}
-      <div className="bg-white border-b border-gray-200 px-3 py-2 overflow-x-auto flex-shrink-0">
-        <div className="flex gap-2 min-w-max">
+      {/* Vehicle Tabs (Top - Scrollable with car photos) */}
+      <div className="bg-gradient-to-r from-blue-50 to-teal-50 border-b border-gray-200 px-3 py-3 overflow-x-auto flex-shrink-0">
+        <div className="flex gap-3 min-w-max">
           {vehicles.map((v) => (
             <button
               key={v.id}
@@ -65,16 +65,25 @@ export default function App() {
                 setSelectedVehicle(v.id);
                 setSelectedLocation('airport');
               }}
-              className={`flex items-center gap-2 px-4 py-3 rounded-xl font-bold text-sm transition-all shadow-sm ${
+              className={`flex flex-col items-center gap-1 px-3 py-2 rounded-2xl transition-all shadow-md min-w-[100px] ${
                 selectedVehicle === v.id
-                  ? `bg-${v.color}-500 text-white shadow-lg scale-105`
-                  : 'bg-white text-gray-700 border-2 border-gray-200 hover:border-gray-300'
+                  ? 'bg-white ring-2 ring-blue-500 shadow-xl scale-105'
+                  : 'bg-white/70 hover:bg-white hover:shadow-lg'
               }`}
             >
-              <span className="text-2xl">{v.icon}</span>
-              <div className="text-left">
-                <div className="font-bold">{v.label}</div>
-                <div className="text-xs opacity-80">{v.plate}</div>
+              <div className="w-20 h-12 rounded-lg overflow-hidden bg-gray-100 mb-1">
+                <img
+                  src={v.image}
+                  alt={v.label}
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.target.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 60"><rect fill="%23ddd" width="100" height="60"/><text x="50" y="35" text-anchor="middle" font-size="20">🚗</text></svg>';
+                  }}
+                />
+              </div>
+              <div className="text-center">
+                <div className="font-bold text-xs text-gray-800">{v.label}</div>
+                <div className="text-xs text-gray-500 font-mono">{v.plate}</div>
               </div>
             </button>
           ))}
@@ -89,9 +98,9 @@ export default function App() {
               <button
                 key={loc.id}
                 onClick={() => setSelectedLocation(loc.id)}
-                className={`flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg font-semibold text-sm transition-all ${
+                className={`flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl font-semibold text-sm transition-all ${
                   selectedLocation === loc.id
-                    ? 'bg-blue-500 text-white shadow-md'
+                    ? 'bg-gradient-to-r from-blue-500 to-teal-500 text-white shadow-md'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >
@@ -110,10 +119,10 @@ export default function App() {
             <button
               key={stage.id}
               onClick={() => setSelectedStage(stage.id)}
-              className={`flex-1 flex flex-col items-center gap-1 px-2 py-2 rounded-lg text-xs font-semibold transition-all ${
+              className={`flex-1 flex flex-col items-center gap-1 px-2 py-2 rounded-xl text-xs font-semibold transition-all ${
                 selectedStage === stage.id
-                  ? 'bg-purple-100 text-purple-700 border-2 border-purple-300'
-                  : 'bg-gray-50 text-gray-600 border-2 border-transparent hover:bg-gray-100'
+                  ? 'bg-gradient-to-r from-coral-500 to-orange-400 text-white shadow-md'
+                  : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
               }`}
             >
               <span className="text-lg">{stage.icon}</span>
