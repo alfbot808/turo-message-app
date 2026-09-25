@@ -8,7 +8,7 @@ export const vehicles = [
     image: '/2024-model-y.png',
     color: 'blue',
     plate: '0T79',
-    colorName: 'Space Grey',
+    colorName: 'Midnight Silver Metallic',
     type: 'electric',
     locations: [
       {
@@ -71,7 +71,7 @@ Turo Hosts`,
 Your Turo rental is ready for pickup at Daniel K. Inouye International Airport (HNL).
 
 🚘 Vehicle Info & Pickup
-• Car: Space Grey Tesla Model Y
+• Car: Midnight Silver Metallic Tesla Model Y
 • License Plate: 0T79
 • Location: Level 7, Row F
 • Key: In a lockbox attached to the driver's side window
@@ -516,7 +516,7 @@ Turo Hosts`,
     image: '/2026-model-y.png',
     color: 'teal',
     plate: '02791',
-    colorName: 'White',
+    colorName: 'Pearl White (Juniper)',
     type: 'electric',
     locations: [
       {
@@ -782,7 +782,7 @@ Turo Hosts`,
     image: '/2024-kicks.png',
     color: 'orange',
     plate: 'YBR 401',
-    colorName: 'Silver',
+    colorName: 'Gun Metallic w/ Black Roof',
     type: 'gas',
     locations: [
       {
