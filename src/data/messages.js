@@ -74,8 +74,9 @@ Your Turo rental is ready for pickup at Daniel K. Inouye International Airport (
 • Car: Midnight Silver Metallic Tesla Model Y
 • License Plate: 0T79
 • Location: Level 7, Row F
-• Key: In a lockbox attached to the driver's side window
-→ Code is sent in the parking instructions!
+• Access: Remote unlock — I'll unlock the car for you remotely once you arrive
+
+📱 Please text me when you reach the car and I'll unlock it immediately.
 
 📸 Please take clear photos of the car from all angles before driving off.
 If you notice any damage or concerns, message us before leaving the garage.
@@ -123,7 +124,7 @@ We highly recommend viewing the instructional video on YouTube to help make the 
 
 Park preferably in the EV stalls on the 7th floor near the elevators. If that's not available then anywhere on the 7th and 8th floor.
 
-Keys: please leave the key in the lock box on the drivers side window as you found it.
+Keys: Leave the key inside the car on the center console. Once parked, I'll lock the car remotely — just text me when you're parked.
 
 If you have any questions or need assistance, feel free to call 📞 or message 💬 me
 
@@ -167,7 +168,7 @@ Exciting trip ahead — we're so glad you booked with us! 🌺
 🚘 On Arrival:
 The car will be parked at 45-315 Lilipuna Rd. Kaneohe 96744.
 
-On the day of your trip, we'll send you Lockbox information and placement.
+On the day of your trip, we'll coordinate remote unlock — just text us when you arrive and we'll open the car for you.
 
 💡 Please be careful exiting and entering the parking garage.
 
@@ -211,9 +212,9 @@ Your Turo rental is ready for pickup located at 45-315 Lilipuna Rd. Kaneohe 9674
 
 The car is located in the parking garage closest to the road. It is parked in stall 19.
 
-Key: In a lockbox attached to the driver's side window
+Access: Remote unlock — I'll unlock the car for you remotely once you arrive.
 
-→ Code for the lock box is: 0219
+📱 Please text me when you reach stall 19 and I'll unlock it immediately.
 
 📸 Please take clear photos of the car from all angles before driving off. If you notice any damage or concerns, message us before leaving the garage.
 
@@ -239,7 +240,7 @@ Belongings: Double-check for personal items before leaving the vehicle.
 Drop-off Location:
 45-315 Lilipuna Rd. Stall 19
 
-Keys: leave the key in the lockbox as you found it.
+Keys: Leave the key inside the car on the center console. Once parked, I'll lock the car remotely — just text me when you're parked.
 
 If you have any questions or need assistance, feel free to call 📞 or message 💬 me
 
@@ -582,8 +583,9 @@ Your Turo rental is ready for pickup at Daniel K. Inouye International Airport (
 • Car: White 2026 Tesla Model Y (Juniper)
 • License Plate: 02791
 • Location: Level 7, Row F
-• Key: In a lockbox attached to the driver's side window
-→ Code is sent in the parking instructions!
+• Access: Remote unlock — I'll unlock the car for you remotely once you arrive
+
+📱 Please text me when you reach the car and I'll unlock it immediately.
 
 📸 Please take clear photos of the car from all angles before driving off.
 If you notice any damage or concerns, message us before leaving the garage.
@@ -631,7 +633,7 @@ We highly recommend viewing the instructional video on YouTube to help make the 
 
 Park preferably in the EV stalls on the 7th floor near the elevators. If that's not available then anywhere on the 7th and 8th floor.
 
-Keys: please leave the key in the lock box on the drivers side window as you found it.
+Keys: Leave the key inside the car on the center console. Once parked, I'll lock the car remotely — just text me when you're parked.
 
 If you have any questions or need assistance, feel free to call 📞 or message 💬 me
 
@@ -675,7 +677,7 @@ Exciting trip ahead — we're so glad you booked with us! 🌺
 🚘 On Arrival:
 The car will be parked at 45-315 Lilipuna Rd. Kaneohe 96744.
 
-On the day of your trip, we'll send you Lockbox information and placement.
+On the day of your trip, we'll coordinate remote unlock — just text us when you arrive and we'll open the car for you.
 
 💡 Please be careful exiting and entering the parking garage.
 
@@ -719,9 +721,9 @@ Your Turo rental is ready for pickup located at 45-315 Lilipuna Rd. Kaneohe 9674
 
 The car is located in the parking garage closest to the road. It is parked in stall 19.
 
-Key: In a lockbox attached to the driver's side window
+Access: Remote unlock — I'll unlock the car for you remotely once you arrive.
 
-→ Code for the lock box is: 0219
+📱 Please text me when you reach stall 19 and I'll unlock it immediately.
 
 📸 Please take clear photos of the car from all angles before driving off. If you notice any damage or concerns, message us before leaving the garage.
 
@@ -747,7 +749,7 @@ Belongings: Double-check for personal items before leaving the vehicle.
 Drop-off Location:
 45-315 Lilipuna Rd. Stall 19
 
-Keys: leave the key in the lockbox as you found it.
+Keys: Leave the key inside the car on the center console. Once parked, I'll lock the car remotely — just text me when you're parked.
 
 If you have any questions or need assistance, feel free to call 📞 or message 💬 me
 
